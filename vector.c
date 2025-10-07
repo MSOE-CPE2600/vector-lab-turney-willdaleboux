@@ -1,8 +1,21 @@
 /*
 banner
 */
+#include <stdio.h>
+#include <stdlib.h>
+#include "vector.h"
 
-int main(void)
+vector addvect(vector new)
 {
-    return 0;
+    //TODO
+}
+
+vector findvect(char *name)
+{
+    //TODO
+}
+
+void clear()
+{
+    //TODO:
 }
