@@ -6,6 +6,7 @@ banner
 
 int main(void)
 {
-    printf("Updated");
+    printf("Updated\n");
+    printf("Updated2\n");
     return 0;
 }
