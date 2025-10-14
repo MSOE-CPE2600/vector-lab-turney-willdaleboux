@@ -1,9 +1,9 @@
 CC=gcc
 CFLAGS=-c -Wall
 LDFLAGS=
-SOURCES= main.c vector.c 
+SOURCES=main.c vector.c 
 OBJECTS=$(SOURCES:.c=.o)
-EXECUTABLE= run
+EXECUTABLE=VectCalc
 
 all: $(SOURCES) $(EXECUTABLE)
 
