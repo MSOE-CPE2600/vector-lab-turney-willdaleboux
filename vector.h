@@ -8,7 +8,7 @@
 #ifndef VECTOR_H
 #define VECTOR_H
 
-#define MAX_VECTORS 10
+// #define MAX_VECTORS 10
 typedef struct vector
 {
     char name[10];
@@ -16,6 +16,33 @@ typedef struct vector
     double y;
     double z;
 } vector;
+
+typedef struct node  
+{
+    struct node* next;
+    struct node* prev;
+} node;
+
+typedef struct 
+{
+    node *head;
+    node *tail;
+} list;
+
+//-----linked list functions-------
+list ll_init(void);
+int ll_size(list *myList);
+int ll_pushfront(list *myList, char *to_store);
+int ll_pushback(list *myList, char *to_store);
+int ll_insert_after(list *myList, node *ins_node, char *to_store);
+int ll_remove(list *myList, node *rmv_node);
+void dump(list *myList);
+void ll_clear(list *myList);
+//------linked list static helpers------
+static void make_node(char *to_store);
+static void kill_node(node *to_kill);
+
+
 
 //------math layer---------
 vector addvect(vector a, vector b); 
