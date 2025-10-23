@@ -21,6 +21,7 @@ typedef struct node
 {
     struct node* next;
     struct node* prev;
+    vector data;
 } node;
 
 typedef struct 

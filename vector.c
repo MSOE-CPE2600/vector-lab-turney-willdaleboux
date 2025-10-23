@@ -11,7 +11,131 @@
 #include <string.h>
 #include <stdlib.h>
 
-static vector storage[MAX_VECTORS];
+// static vector storage[MAX_VECTORS];
+
+
+//--------linked list functions--------
+list ll_init(void)
+{
+    list return_list = {NULL,NULL};
+    return return_list;
+}
+
+int ll_size(list *myList)
+{
+    int size = 0;
+    node *iterator = myList->head;
+    while(iterator)
+    {
+        size++;
+        iterator = iterator->next;
+    }
+    return size;
+}
+
+int ll_pushfront(list *myList, char *to_store)
+{
+    node *new_node = make_node(to_store);
+    if(to_store)
+    {
+        //is first node in list?
+        if(myList->head == NULL)
+        {
+            myList->head = myList->tail = new_node;
+        }
+        else //not first node in list
+        {
+            new_node->next = myList->head;
+            myList->head->prev = new_node;
+            myList->head = new_node;
+        }
+        return 0; // successful
+    }
+    return -1; //fail
+}
+
+int ll_pushback(list *myList, char *to_store)
+{
+    //TODO
+    if(to_store)
+    {
+        node *new_node = make_node(to_store);
+        //is first node in list?
+        if(myList->tail == NULL)
+        {
+            myList->tail = myList->head = new_node;
+        }
+        else //not first node
+        {
+            new_node->next = NULL;
+            myList->tail->next = new_node;
+            new_node->prev = myList->tail;
+            myList->tail = new_node;
+        }
+        return 0; //success
+    }
+    return -1; //fail
+}
+
+int ll_insert_after(list *myList, node *ins_node, char *to_store)
+{
+    //TODO
+    int to_return = 0;
+
+    if(to_store && ins_node)
+    {
+        if(ins_node == myList->tail)
+        {
+            to_return = ll_pushback(myList, to_store);
+        }
+        else 
+        {
+            node *new_node = make_node(to_store);
+
+            ins_node->next->prev = new_node;
+            new_node->next = ins_node->next;
+            new_node->prev = ins_node;
+            ins_node->next = new_node;
+
+            //update tail pointer if necessary
+            if(ins_node == myList->tail)
+            {
+                myList->tail = new_node;
+            }
+
+        }
+        return to_return; // success
+    }
+    return -1; //fail
+}
+
+int ll_remove(list *myList, node *rmv_node)
+{
+    //TODO
+}
+
+void dump(list *myList)
+{
+    //TODO
+}
+
+void ll_clear(list *myList)
+{
+    //TODO
+}
+
+//--------linked list static helpers----------
+static void make_node(char *to_store)
+{
+    node *new_node = malloc(sizeof(node));
+    //TODO
+}
+
+static void kill_node(node *to_kill)
+{
+    //TODO
+    free(to_kill);
+}
 
 //--------math layer------------ 
 vector addvect(vector a, vector b)
