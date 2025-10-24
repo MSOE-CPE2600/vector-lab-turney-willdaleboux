@@ -12,6 +12,14 @@
 #include <stdlib.h>
 
 // static vector storage[MAX_VECTORS];
+typedef struct Node 
+{
+    struct Node *next; 
+    struct Node *prev;
+    vector data; // storing by value
+} Node;
+static Node *g_head = NULL;
+static Node *g_tail = NULL;
 
 
 //--------linked list functions--------

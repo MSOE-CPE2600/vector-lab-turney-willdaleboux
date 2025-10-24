@@ -17,18 +17,6 @@ typedef struct vector
     double z;
 } vector;
 
-typedef struct node  
-{
-    struct node* next;
-    struct node* prev;
-    vector data;
-} node;
-
-typedef struct 
-{
-    node *head;
-    node *tail;
-} list;
 
 //-----linked list functions-------
 list ll_init(void);
