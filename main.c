@@ -29,7 +29,7 @@ int main(int argc, char *argv[])
     vector *v2;
     vector result;
     //handle command line argument
-    if(strcmp(argv[1], "-h") == 0 || strcmp(argv[1], "--help") == 0)
+    if(argc > 1 && (strcmp(argv[1], "-h") == 0 || strcmp(argv[1], "--help") == 0))
     {
         help();
     }
