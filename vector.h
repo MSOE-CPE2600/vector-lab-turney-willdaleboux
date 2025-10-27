@@ -28,8 +28,8 @@ typedef struct vector
 // void dump(list *myList);
 // void ll_clear(list *myList);
 //------linked list static helpers------
-static Node *make_node(const vector *v);
-static void kill_node(node *to_kill);
+// static Node *make_node(const vector *v);
+// static void kill_node(Node *to_kill);
 
 
 
@@ -41,7 +41,7 @@ vector scalar_mult_vect(vector v, double scalar);
 //-----storage layer-------
 int store_vector(vector v); // store vector in vector array
 vector* findvect(const char *name); // find first empty location 
-int is_empty_slot(int index); // if first element in array is '\0', slot is empty
+// int is_empty_slot(int index); // if first element in array is '\0', slot is empty
 
 
 //--------helper functions-------

@@ -140,14 +140,27 @@ static Node *make_node(const vector *v)
     {
         return NULL;
     }
-    n->next = n->prev = NULL;
-    n->data = *v;
-    return n;
+    new_node->next = new_node->prev = NULL;
+    new_node->data = *v;
+    return new_node;
 }
 
-static void kill_node(node *to_kill)
+static void kill_node(Node *to_kill)
 {
     free(to_kill);
+}
+
+static Node *find_node_by_name(const char *name)
+{
+    // iterate through linked list to find a node matching specified name
+    for(Node *p = g_head; p; p = p->next) 
+    {
+        if(strcmp(p->data.name, name) == 0)
+        {
+            return p;
+        }
+    }
+    return NULL;
 }
 
 //--------math layer------------ 
@@ -209,6 +222,33 @@ int store_vector(vector v)
 
     // printf("Error, Vector array is full. cannot hold more than %d\n", MAX_VECTORS);
     // return -1;
+    
+    if(v.name[0] == '\0')
+    {
+        fprintf(stderr, "Error: unnamed vector\n.");
+        return -1;
+    }
+    Node *existing = find_node_by_name(v.name);
+    if(existing)
+    {
+        existing->data = v;
+        return 0;
+    }
+
+    Node *n = make_node(&v);
+    //push back
+
+    if(!g_tail)
+    {
+        g_head = g_tail = n;
+    }
+    else 
+    {
+        n->prev = g_tail;
+        g_tail->next = n;
+        g_tail = n;
+    }
+    return 0;
 }
 
 // int is_empty_slot(int index)
@@ -223,30 +263,46 @@ int store_vector(vector v)
 //     }
 // }
 
-vector* findvect(const char *name)
+vector *findvect(const char *name)
 {
-    // itterate through vector array
-    for(int i=0; i<MAX_VECTORS; i++)
-    {
-        //return matching vector if found
-        if(!is_empty_slot(i) && strcmp(storage[i].name, name) == 0)
-        {
-            return &storage[i];
-        }
-    }
-    return NULL;
+    // // itterate through vector array
+    // for(int i=0; i<MAX_VECTORS; i++)
+    // {
+    //     //return matching vector if found
+    //     if(!is_empty_slot(i) && strcmp(storage[i].name, name) == 0)
+    //     {
+    //         return &storage[i];
+    //     }
+    // }
+    // return NULL;
+    Node *n = find_node_by_name(name);
+    //return pointer to vector inside node if found, otherwise NULL;
+    return n ? &n->data : NULL; 
+
+
 }
 
 void list()
 {
-    // itterate through vector array   
-    for(int i=0; i<MAX_VECTORS; i++)
+    // // itterate through vector array   
+    // for(int i=0; i<MAX_VECTORS; i++)
+    // {
+    //     //print non-empty slots
+    //     if(!is_empty_slot(i))
+    //     {
+    //         printvect(&storage[i]);
+    //     }
+    // }
+
+
+    if(!g_head)
     {
-        //print non-empty slots
-        if(!is_empty_slot(i))
-        {
-            printvect(&storage[i]);
-        }
+        printf("no vectors stored.\n");
+        return;
+    }
+    for(Node *p = g_head; p; p = p->next)
+    {
+        printvect(&p->data);
     }
 }
 
