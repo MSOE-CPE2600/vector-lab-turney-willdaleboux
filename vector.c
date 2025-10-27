@@ -350,12 +350,127 @@ void printvect(const vector *v)
     printf("%s = %.6g    %.6g    %.6g\n", v->name, v->x, v->y, v->z);
 }
 
+//-------CSV helper-------
+static int parse_csv_line(const char *line, vector *out)
+{
+    char name[10];
+    double x;
+    double y;
+    double z;
+    int n = 0;
+    
+    int matched = sscanf(line, " %9[^,] , %lf , % lf , %lf %n",
+                        name, &x, &y, &z, &n);
+
+    if(matched != 4)
+    {
+        return -1;
+    }
+
+    //make sure no trailing non-space chars after parsed text
+    for(const char *p = line + n; *p; ++p)
+    {
+        if(!isspace((unsigned char)*p))
+        {
+            return -1;
+        }
+    }
+
+    //fill result
+    strncpy(out->name, name, sizeof(out->name) - 1);
+    out->name[sizeof(out->name) - 1] = '/0';
+    out->x = x;
+    out->y = y;
+    out->z = z;
+    return 0;
+}
+
+//-------CSV file I/O-------
 int load_csv(const char *filename)
 {
     //TODO
+    if(!filename || !*filename)
+    {
+        fprintf(stderr, "load_csv: invalid filename\n");
+        return -1;
+    }
+
+    FILE *fp = fopen(filename, "r");
+    if(!fp)
+    {
+        perror("load_csv: fopen");
+        return -1;
+    }
+    
+    if(!merge)
+    {
+        clear(); // clear stored vector if merge = 0
+    }
+
+    char line[256];
+    int line_num = 0;
+    int loaded = 0;
+
+    while(fgets(line, sizeof(line),fp))
+    {
+        line_num++;
+
+        //skip blank lines/comments
+        char *p = line;
+        while(isspace((unsigned char)*p))
+        {
+            p++;
+        }
+        if(*p == '\0' || *p == '#')
+        {
+            continue;
+        }
+        //skip header line
+        if(strncasecmp(p, "name", 4) == 0)
+        {
+            continue;
+        }
+
+        vector v;
+        if(parse_csv_line(v) == 0)
+        {
+            loaded++;
+        }
+        else
+        {
+            fprintf(stderr, "load_csv: failed to store %s\n", v.name);
+        }
+    }
+    fclose(fp);
+    printf("Loaded %d vector(s) from %s\n", loaded, filename);
+    return 0;
 }
 
 int save_csv(const char *filename, int merge)
 {
     //TODO
+    if(!filename || !*filename)
+    {
+        fprintf(stderr, "save_csv: invalid filename.\n");
+        return -1;
+    }
+
+    FILE *fp = fopen(filename, "w");
+    if(!fp)
+    {
+        perror("save_csv: fopen");
+        return -1;
+    }
+
+    //header line
+    fprintf(fp, "name,x,y,z\n");
+
+    for(Node *p = g_head; p; p = p->next)
+    {
+        fprintf(fp, "%s,%.17g,%.17g,%.17g\n",
+                p->data.name, p-data.x, p->data.y, p->data.z);
+    }
+    fclose(fp);
+    printf("Saved %s\n", filename);
+    return 0;
 }
