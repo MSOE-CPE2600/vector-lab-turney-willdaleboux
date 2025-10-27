@@ -16,6 +16,7 @@
 int main(int argc, char *argv[])
 {
     atexit(clear); // force free when quitting
+    char filename[256];
     char input[100];
     char name1[10];
     char name2[10];
@@ -47,7 +48,7 @@ int main(int argc, char *argv[])
         {
             break;
         }
-        input[strcspn(input, "\n")] = '\0';
+        input[strcspn(input, "\n")] = '\0'; //remove trailing newline
 
 
         //-----commands-------
@@ -207,6 +208,19 @@ int main(int argc, char *argv[])
                     printf("Stored %s = %.2f, %.2f, %.2f\n", scalar_result.name, scalar_result.x, scalar_result.y, scalar_result.z);
                 }
             }
+        }
+        //-------- save/load csv -------
+        else if(sscanf(input, "save %255s", filename) == 1)
+        {
+            save_csv(filename);
+        }
+        else if(sscanf(input, "loadfresh %255s", filename) == 1)
+        {
+            load_csv(filename, 0);
+        }
+        else if(sscanf(input, "load %255s", filename) == 1)
+        {
+            load_csv(filename, 1);
         }
 
         //-------- display a single vector ----------- 

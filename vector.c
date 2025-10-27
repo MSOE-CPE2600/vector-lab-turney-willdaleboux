@@ -10,8 +10,8 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <ctype.h>
 
-// static vector storage[MAX_VECTORS];
 typedef struct Node 
 {
     struct Node *next; 
@@ -21,116 +21,6 @@ typedef struct Node
 static Node *g_head = NULL;
 static Node *g_tail = NULL;
 
-
-// //--------linked list functions--------
-// list ll_init(void)
-// {
-//     list return_list = {NULL,NULL};
-//     return return_list;
-// }
-
-// int ll_size(list *myList)
-// {
-//     int size = 0;
-//     node *iterator = myList->head;
-//     while(iterator)
-//     {
-//         size++;
-//         iterator = iterator->next;
-//     }
-//     return size;
-// }
-
-// int ll_pushfront(list *myList, char *to_store)
-// {
-//     node *new_node = make_node(to_store);
-//     if(to_store)
-//     {
-//         //is first node in list?
-//         if(myList->head == NULL)
-//         {
-//             myList->head = myList->tail = new_node;
-//         }
-//         else //not first node in list
-//         {
-//             new_node->next = myList->head;
-//             myList->head->prev = new_node;
-//             myList->head = new_node;
-//         }
-//         return 0; // successful
-//     }
-//     return -1; //fail
-// }
-
-// int ll_pushback(list *myList, char *to_store)
-// {
-//     //TODO
-//     if(to_store)
-//     {
-//         node *new_node = make_node(to_store);
-//         //is first node in list?
-//         if(myList->tail == NULL)
-//         {
-//             myList->tail = myList->head = new_node;
-//         }
-//         else //not first node
-//         {
-//             new_node->next = NULL;
-//             myList->tail->next = new_node;
-//             new_node->prev = myList->tail;
-//             myList->tail = new_node;
-//         }
-//         return 0; //success
-//     }
-//     return -1; //fail
-// }
-
-// int ll_insert_after(list *myList, node *ins_node, char *to_store)
-// {
-//     //TODO
-//     int to_return = 0;
-
-//     if(to_store && ins_node)
-//     {
-//         if(ins_node == myList->tail)
-//         {
-//             to_return = ll_pushback(myList, to_store);
-//         }
-//         else 
-//         {
-//             node *new_node = make_node(to_store);
-
-//             ins_node->next->prev = new_node;
-//             new_node->next = ins_node->next;
-//             new_node->prev = ins_node;
-//             ins_node->next = new_node;
-
-//             //update tail pointer if necessary
-//             if(ins_node == myList->tail)
-//             {
-//                 myList->tail = new_node;
-//             }
-
-//         }
-//         return to_return; // success
-//     }
-//     return -1; //fail
-// }
-
-// int ll_remove(list *myList, node *rmv_node)
-// {
-//     //TODO
-// }
-
-// void dump(list *myList)
-// {
-//     //TODO
-// }
-
-// void ll_clear(list *myList)
-// {
-//     //TODO
-// }
 
 //--------linked list static helpers----------
 static Node *make_node(const vector *v)
@@ -152,7 +42,7 @@ static void kill_node(Node *to_kill)
 
 static Node *find_node_by_name(const char *name)
 {
-    // iterate through linked list to find a node matching specified name
+    // traverse through linked list to find a node matching specified name
     for(Node *p = g_head; p; p = p->next) 
     {
         if(strcmp(p->data.name, name) == 0)
@@ -198,31 +88,7 @@ vector scalar_mult_vect(vector v, double scalar)
 
 //-----------storage layer-------------
 int store_vector(vector v)
-{
-    // //check if vector already exists
-    // for(int i=0; i< MAX_VECTORS; i++)
-    // {
-    //     if(!is_empty_slot(i) && strcmp(storage[i].name, v.name) == 0)
-    //     {
-    //         //overwrite vector if it already exists in the array
-    //         storage[i] = v;
-    //         return 0;
-    //     }
-    // }
-    // //if vector doesn't already exist, add to first empty slot
-    // for(int i=0; i<MAX_VECTORS; i++)
-    // {
-    //     if(is_empty_slot(i))
-    //     {
-    //         storage[i] = v;
-    //         return 0;
-    //     }
-    // }
-
-
-    // printf("Error, Vector array is full. cannot hold more than %d\n", MAX_VECTORS);
-    // return -1;
-    
+{   
     if(v.name[0] == '\0')
     {
         fprintf(stderr, "Error: unnamed vector\n.");
@@ -251,30 +117,9 @@ int store_vector(vector v)
     return 0;
 }
 
-// int is_empty_slot(int index)
-// {
-//     if(storage[index].name[0] == '\0')
-//     {
-//         return 1; // return 1 for empty slot
-//     } 
-//     else 
-//     {
-//         return 0; // return 0 for non-empty slot
-//     }
-// }
 
 vector *findvect(const char *name)
 {
-    // // itterate through vector array
-    // for(int i=0; i<MAX_VECTORS; i++)
-    // {
-    //     //return matching vector if found
-    //     if(!is_empty_slot(i) && strcmp(storage[i].name, name) == 0)
-    //     {
-    //         return &storage[i];
-    //     }
-    // }
-    // return NULL;
     Node *n = find_node_by_name(name);
     //return pointer to vector inside node if found, otherwise NULL;
     return n ? &n->data : NULL; 
@@ -284,17 +129,6 @@ vector *findvect(const char *name)
 
 void list()
 {
-    // // itterate through vector array   
-    // for(int i=0; i<MAX_VECTORS; i++)
-    // {
-    //     //print non-empty slots
-    //     if(!is_empty_slot(i))
-    //     {
-    //         printvect(&storage[i]);
-    //     }
-    // }
-
-
     if(!g_head)
     {
         printf("no vectors stored.\n");
@@ -308,11 +142,6 @@ void list()
 
 void clear()
 {
-    // for(int i=0; i< MAX_VECTORS; i++)
-    // {
-    //     storage[i].name[0] = '\0'; // mark as empty for each element of array
-    // }
-    // printf("vectors cleared.\n");
     Node *p = g_head;
     while(p)
     {
@@ -341,6 +170,9 @@ void help()
     printf("    result = var1 + var2    do operation and store into result\n");
     printf("    list                    list vectors\n");
     printf("    clear                   clear vector list\n");
+    printf("    save <file.csv>         save vectors to CSV\n");
+    printf("    load <file.csv>         load vectors(merge mode)\n");
+    printf("    loadfresh <file.csv>    clears vectors first, then load vectors\n");
     printf("    help                    display this help page\n");
     printf("    quit                    quit the program\n");
 }
@@ -359,7 +191,7 @@ static int parse_csv_line(const char *line, vector *out)
     double z;
     int n = 0;
     
-    int matched = sscanf(line, " %9[^,] , %lf , % lf , %lf %n",
+    int matched = sscanf(line, " %9[^,] , %lf , %lf , %lf %n",
                         name, &x, &y, &z, &n);
 
     if(matched != 4)
@@ -378,7 +210,7 @@ static int parse_csv_line(const char *line, vector *out)
 
     //fill result
     strncpy(out->name, name, sizeof(out->name) - 1);
-    out->name[sizeof(out->name) - 1] = '/0';
+    out->name[sizeof(out->name) - 1] = '\0';
     out->x = x;
     out->y = y;
     out->z = z;
@@ -386,9 +218,8 @@ static int parse_csv_line(const char *line, vector *out)
 }
 
 //-------CSV file I/O-------
-int load_csv(const char *filename)
+int load_csv(const char *filename, int merge)
 {
-    //TODO
     if(!filename || !*filename)
     {
         fprintf(stderr, "load_csv: invalid filename\n");
@@ -432,13 +263,20 @@ int load_csv(const char *filename)
         }
 
         vector v;
-        if(parse_csv_line(v) == 0)
+        if(parse_csv_line(p, &v) == 0)
         {
-            loaded++;
+            if(store_vector(v) == 0)
+            {
+                loaded++;
+            }
+            else
+            {
+                fprintf(stderr, "load_csv: failed to store %s\n", v.name);
+            }
         }
         else
         {
-            fprintf(stderr, "load_csv: failed to store %s\n", v.name);
+            fprintf(stderr, "load_csv: error in line %d: %s", line_num, line);
         }
     }
     fclose(fp);
@@ -446,9 +284,8 @@ int load_csv(const char *filename)
     return 0;
 }
 
-int save_csv(const char *filename, int merge)
+int save_csv(const char *filename)
 {
-    //TODO
     if(!filename || !*filename)
     {
         fprintf(stderr, "save_csv: invalid filename.\n");
@@ -468,7 +305,7 @@ int save_csv(const char *filename, int merge)
     for(Node *p = g_head; p; p = p->next)
     {
         fprintf(fp, "%s,%.17g,%.17g,%.17g\n",
-                p->data.name, p-data.x, p->data.y, p->data.z);
+                p->data.name, p->data.x, p->data.y, p->data.z);
     }
     fclose(fp);
     printf("Saved %s\n", filename);
