@@ -349,3 +349,13 @@ void printvect(const vector *v)
 {
     printf("%s = %.6g    %.6g    %.6g\n", v->name, v->x, v->y, v->z);
 }
+
+int load_csv(const char *filename)
+{
+    //TODO
+}
+
+int save_csv(const char *filename, int merge)
+{
+    //TODO
+}
