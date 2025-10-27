@@ -19,16 +19,16 @@ typedef struct vector
 
 
 //-----linked list functions-------
-list ll_init(void);
-int ll_size(list *myList);
-int ll_pushfront(list *myList, char *to_store);
-int ll_pushback(list *myList, char *to_store);
-int ll_insert_after(list *myList, node *ins_node, char *to_store);
-int ll_remove(list *myList, node *rmv_node);
-void dump(list *myList);
-void ll_clear(list *myList);
+// list ll_init(void);
+// int ll_size(list *myList);
+// int ll_pushfront(list *myList, char *to_store);
+// int ll_pushback(list *myList, char *to_store);
+// int ll_insert_after(list *myList, node *ins_node, char *to_store);
+// int ll_remove(list *myList, node *rmv_node);
+// void dump(list *myList);
+// void ll_clear(list *myList);
 //------linked list static helpers------
-static void make_node(char *to_store);
+static Node *make_node(const vector *v);
 static void kill_node(node *to_kill);
 
 

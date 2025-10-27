@@ -22,126 +22,131 @@ static Node *g_head = NULL;
 static Node *g_tail = NULL;
 
 
-//--------linked list functions--------
-list ll_init(void)
-{
-    list return_list = {NULL,NULL};
-    return return_list;
-}
+// //--------linked list functions--------
+// list ll_init(void)
+// {
+//     list return_list = {NULL,NULL};
+//     return return_list;
+// }
 
-int ll_size(list *myList)
-{
-    int size = 0;
-    node *iterator = myList->head;
-    while(iterator)
-    {
-        size++;
-        iterator = iterator->next;
-    }
-    return size;
-}
+// int ll_size(list *myList)
+// {
+//     int size = 0;
+//     node *iterator = myList->head;
+//     while(iterator)
+//     {
+//         size++;
+//         iterator = iterator->next;
+//     }
+//     return size;
+// }
 
-int ll_pushfront(list *myList, char *to_store)
-{
-    node *new_node = make_node(to_store);
-    if(to_store)
-    {
-        //is first node in list?
-        if(myList->head == NULL)
-        {
-            myList->head = myList->tail = new_node;
-        }
-        else //not first node in list
-        {
-            new_node->next = myList->head;
-            myList->head->prev = new_node;
-            myList->head = new_node;
-        }
-        return 0; // successful
-    }
-    return -1; //fail
-}
+// int ll_pushfront(list *myList, char *to_store)
+// {
+//     node *new_node = make_node(to_store);
+//     if(to_store)
+//     {
+//         //is first node in list?
+//         if(myList->head == NULL)
+//         {
+//             myList->head = myList->tail = new_node;
+//         }
+//         else //not first node in list
+//         {
+//             new_node->next = myList->head;
+//             myList->head->prev = new_node;
+//             myList->head = new_node;
+//         }
+//         return 0; // successful
+//     }
+//     return -1; //fail
+// }
 
-int ll_pushback(list *myList, char *to_store)
-{
-    //TODO
-    if(to_store)
-    {
-        node *new_node = make_node(to_store);
-        //is first node in list?
-        if(myList->tail == NULL)
-        {
-            myList->tail = myList->head = new_node;
-        }
-        else //not first node
-        {
-            new_node->next = NULL;
-            myList->tail->next = new_node;
-            new_node->prev = myList->tail;
-            myList->tail = new_node;
-        }
-        return 0; //success
-    }
-    return -1; //fail
-}
+// int ll_pushback(list *myList, char *to_store)
+// {
+//     //TODO
+//     if(to_store)
+//     {
+//         node *new_node = make_node(to_store);
+//         //is first node in list?
+//         if(myList->tail == NULL)
+//         {
+//             myList->tail = myList->head = new_node;
+//         }
+//         else //not first node
+//         {
+//             new_node->next = NULL;
+//             myList->tail->next = new_node;
+//             new_node->prev = myList->tail;
+//             myList->tail = new_node;
+//         }
+//         return 0; //success
+//     }
+//     return -1; //fail
+// }
 
-int ll_insert_after(list *myList, node *ins_node, char *to_store)
-{
-    //TODO
-    int to_return = 0;
+// int ll_insert_after(list *myList, node *ins_node, char *to_store)
+// {
+//     //TODO
+//     int to_return = 0;
 
-    if(to_store && ins_node)
-    {
-        if(ins_node == myList->tail)
-        {
-            to_return = ll_pushback(myList, to_store);
-        }
-        else 
-        {
-            node *new_node = make_node(to_store);
+//     if(to_store && ins_node)
+//     {
+//         if(ins_node == myList->tail)
+//         {
+//             to_return = ll_pushback(myList, to_store);
+//         }
+//         else 
+//         {
+//             node *new_node = make_node(to_store);
 
-            ins_node->next->prev = new_node;
-            new_node->next = ins_node->next;
-            new_node->prev = ins_node;
-            ins_node->next = new_node;
+//             ins_node->next->prev = new_node;
+//             new_node->next = ins_node->next;
+//             new_node->prev = ins_node;
+//             ins_node->next = new_node;
 
-            //update tail pointer if necessary
-            if(ins_node == myList->tail)
-            {
-                myList->tail = new_node;
-            }
+//             //update tail pointer if necessary
+//             if(ins_node == myList->tail)
+//             {
+//                 myList->tail = new_node;
+//             }
 
-        }
-        return to_return; // success
-    }
-    return -1; //fail
-}
+//         }
+//         return to_return; // success
+//     }
+//     return -1; //fail
+// }
 
-int ll_remove(list *myList, node *rmv_node)
-{
-    //TODO
-}
+// int ll_remove(list *myList, node *rmv_node)
+// {
+//     //TODO
+// }
 
-void dump(list *myList)
-{
-    //TODO
-}
+// void dump(list *myList)
+// {
+//     //TODO
+// }
 
-void ll_clear(list *myList)
-{
-    //TODO
-}
+// void ll_clear(list *myList)
+// {
+//     //TODO
+// }
 
 //--------linked list static helpers----------
-static void make_node(char *to_store)
+static Node *make_node(const vector *v)
 {
-    node *new_node = malloc(sizeof(node));
-    //TODO
+    Node *new_node = (Node*)malloc(sizeof(Node));
+    if(!new_node)
+    {
+        return NULL;
+    }
+    n->next = n->prev = NULL;
+    n->data = *v;
+    return n;
 }
 
 static void kill_node(node *to_kill)
 {
-    //TODO
     free(to_kill);
 }
 
@@ -181,42 +186,42 @@ vector scalar_mult_vect(vector v, double scalar)
 //-----------storage layer-------------
 int store_vector(vector v)
 {
-    //check if vector already exists
-    for(int i=0; i< MAX_VECTORS; i++)
-    {
-        if(!is_empty_slot(i) && strcmp(storage[i].name, v.name) == 0)
-        {
-            //overwrite vector if it already exists in the array
-            storage[i] = v;
-            return 0;
-        }
-    }
-    //if vector doesn't already exist, add to first empty slot
-    for(int i=0; i<MAX_VECTORS; i++)
-    {
-        if(is_empty_slot(i))
-        {
-            storage[i] = v;
-            return 0;
-        }
-    }
+    // //check if vector already exists
+    // for(int i=0; i< MAX_VECTORS; i++)
+    // {
+    //     if(!is_empty_slot(i) && strcmp(storage[i].name, v.name) == 0)
+    //     {
+    //         //overwrite vector if it already exists in the array
+    //         storage[i] = v;
+    //         return 0;
+    //     }
+    // }
+    // //if vector doesn't already exist, add to first empty slot
+    // for(int i=0; i<MAX_VECTORS; i++)
+    // {
+    //     if(is_empty_slot(i))
+    //     {
+    //         storage[i] = v;
+    //         return 0;
+    //     }
+    // }
 
 
-    printf("Error, Vector array is full. cannot hold more than %d\n", MAX_VECTORS);
-    return -1;
+    // printf("Error, Vector array is full. cannot hold more than %d\n", MAX_VECTORS);
+    // return -1;
 }
 
-int is_empty_slot(int index)
-{
-    if(storage[index].name[0] == '\0')
-    {
-        return 1; // return 1 for empty slot
-    } 
-    else 
-    {
-        return 0; // return 0 for non-empty slot
-    }
-}
+// int is_empty_slot(int index)
+// {
+//     if(storage[index].name[0] == '\0')
+//     {
+//         return 1; // return 1 for empty slot
+//     } 
+//     else 
+//     {
+//         return 0; // return 0 for non-empty slot
+//     }
+// }
 
 vector* findvect(const char *name)
 {
@@ -247,11 +252,20 @@ void list()
 
 void clear()
 {
-    for(int i=0; i< MAX_VECTORS; i++)
+    // for(int i=0; i< MAX_VECTORS; i++)
+    // {
+    //     storage[i].name[0] = '\0'; // mark as empty for each element of array
+    // }
+    // printf("vectors cleared.\n");
+    Node *p = g_head;
+    while(p)
     {
-        storage[i].name[0] = '\0'; // mark as empty for each element of array
+        Node *next = p->next;
+        kill_node(p);
+        p = next;
     }
-    printf("vectors cleared.\n");
+    g_head = g_tail = NULL;
+    printf("Vectors cleared.\n");
 }
 
 void quit()

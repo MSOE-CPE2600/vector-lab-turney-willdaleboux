@@ -15,6 +15,7 @@
 
 int main(int argc, char *argv[])
 {
+    atexit(clear); // force free when quitting
     char input[100];
     char name1[10];
     char name2[10];
