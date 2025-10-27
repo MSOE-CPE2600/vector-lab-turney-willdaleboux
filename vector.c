@@ -311,3 +311,9 @@ int save_csv(const char *filename)
     printf("Saved %s\n", filename);
     return 0;
 }
+
+void signal_handler(int signal)
+{
+    printf("\nHandling Ctrl-C....\n");
+    quit();
+}

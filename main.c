@@ -12,10 +12,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <signal.h>
 
 int main(int argc, char *argv[])
 {
     atexit(clear); // force free when quitting
+    signal(SIGINT, signal_handler);
     char filename[256];
     char input[100];
     char name1[10];

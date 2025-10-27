@@ -55,6 +55,7 @@ void printvect(const vector *v);
 int save_csv(const char *filename);
 int load_csv(const char *filename, int merge); // merge !=0 merges; merge == 0 clears first
 
-
+//------- Signal Handler-------
+void signal_handler(int signal);
 
 #endif
